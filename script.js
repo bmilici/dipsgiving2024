@@ -3,20 +3,11 @@ const dips = [
     "Buffalo Chicken Dip",
     "Guacamole",
     "Queso",
-    "Hummus",
-    "French Onion Dip",
-    "Ranch Dip",
-    "Pico de Gallo",
-    "Crab Dip",
-    "7-Layer Dip",
-    "Salsa",
-    "Bean Dip",
-    "Tzatziki",
-    "Blue Cheese Dip",
-    "Baba Ganoush"
+    "Hummus"
 ];
 
 const votes = new Map(dips.map(dip => [dip, 0]));
+const voters = new Set(); // Track voters by name
 
 const dipsContainer = document.getElementById("dips-container");
 const submitVoteButton = document.getElementById("submit-vote");
@@ -45,9 +36,22 @@ dips.forEach(dip => {
 
 // Handle vote submission
 submitVoteButton.addEventListener("click", () => {
+    const voterName = prompt("Enter your name:").trim();
+
+    if (!voterName) {
+        alert("You must enter a name to vote.");
+        return;
+    }
+
+    if (voters.has(voterName)) {
+        alert("You have already voted! You cannot vote again.");
+        return;
+    }
+
     if (selectedDip) {
         votes.set(selectedDip, votes.get(selectedDip) + 1);
-        alert(`Thank you for voting for ${selectedDip}!`);
+        voters.add(voterName); // Add voter to the set
+        alert(`Thank you, ${voterName}, for voting for ${selectedDip}!`);
         selectedDip = null;
         submitVoteButton.disabled = true;
 
