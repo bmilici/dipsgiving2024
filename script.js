@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const dips = [
-    "Spinach Artichoke Dip",
+    "Brisket Dip",
     "Buffalo Chicken Dip",
     "Guacamole",
     "Queso",
