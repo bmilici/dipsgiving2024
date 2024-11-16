@@ -24,7 +24,7 @@ const dips = [
     "Corn",
     "Crab",
     "Dorito",
-    "Espinaca"
+    "Espinaca",
     "Goat Cheese Bruschetta",
     "Hoagie",
     "Key Lime",
