@@ -17,6 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Dips options
 const dips = [
     "Brisket",
     "Buffalo Chicken",
@@ -30,7 +31,7 @@ const dips = [
     "Key Lime",
     "Mango Salsa",
     "Mediterranean",
-    "Smoked Salmon" 
+    "Smoked Salmon"
 ];
 
 let selectedDip = null;
@@ -39,22 +40,26 @@ let selectedDip = null;
 const dipsContainer = document.getElementById("dips-container");
 const submitVoteButton = document.getElementById("submit-vote");
 
-dips.forEach((dip) => {
-    const label = document.createElement("label");
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "dip";
-    radio.value = dip;
-    radio.addEventListener("change", () => {
-        selectedDip = dip;
-        submitVoteButton.disabled = false;
-    });
+if (dipsContainer) {
+    dips.forEach((dip) => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "dip";
+        radio.value = dip;
+        radio.addEventListener("change", () => {
+            selectedDip = dip;
+            submitVoteButton.disabled = false;
+        });
 
-    label.appendChild(radio);
-    label.appendChild(document.createTextNode(dip));
-    dipsContainer.appendChild(label);
-    dipsContainer.appendChild(document.createElement("br"));
-});
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(dip));
+        dipsContainer.appendChild(label);
+        dipsContainer.appendChild(document.createElement("br"));
+    });
+}
+
+submitVoteButton.disabled = true; // Initially disable button
 
 // Submit a vote
 async function submitVote(voterName, selectedDip) {
@@ -62,12 +67,14 @@ async function submitVote(voterName, selectedDip) {
         const votesRef = doc(db, "votes", "dipResults");
         const voterRef = doc(db, "voters", voterName);
 
+        // Check if the voter has already voted
         const voterDoc = await getDoc(voterRef);
         if (voterDoc.exists()) {
             alert("You have already voted!");
             return;
         }
 
+        // Use transaction to update votes
         await runTransaction(db, async (transaction) => {
             const voteDoc = await transaction.get(votesRef);
             const currentVotes = voteDoc.exists() ? voteDoc.data() : {};
@@ -75,10 +82,12 @@ async function submitVote(voterName, selectedDip) {
             transaction.set(votesRef, currentVotes);
         });
 
+        // Mark voter as having voted
         await setDoc(voterRef, { voted: true });
         alert(`Thank you, ${voterName}, for voting for ${selectedDip}!`);
     } catch (error) {
         console.error("Error submitting vote: ", error);
+        alert("An error occurred while submitting your vote. Please try again.");
     }
 }
 
@@ -87,6 +96,7 @@ async function loadVotes() {
     try {
         const votesRef = doc(db, "votes", "dipResults");
         const voteDoc = await getDoc(votesRef);
+
         if (voteDoc.exists()) {
             const votes = voteDoc.data();
             displayResults(votes);
@@ -99,7 +109,12 @@ async function loadVotes() {
 // Display results
 function displayResults(votes) {
     const resultsList = document.getElementById("results");
-    resultsList.innerHTML = "";
+    if (!resultsList) {
+        console.error("Results container not found!");
+        return;
+    }
+
+    resultsList.innerHTML = ""; // Clear previous results
     Object.entries(votes).forEach(([dip, count]) => {
         const listItem = document.createElement("li");
         listItem.textContent = `${dip}: ${count} vote(s)`;
@@ -111,9 +126,14 @@ function displayResults(votes) {
 submitVoteButton.addEventListener("click", async () => {
     const voterName = prompt("Enter your name:").trim();
     if (!voterName || !selectedDip) return;
+
+    submitVoteButton.disabled = true; // Disable to prevent multiple submissions
     await submitVote(voterName, selectedDip);
+    submitVoteButton.disabled = false; // Re-enable after vote
     loadVotes();
 });
 
 // Load votes on page load
-loadVotes();
+document.addEventListener("DOMContentLoaded", () => {
+    loadVotes();
+});
