@@ -30,7 +30,7 @@ const dips = [
     "Key Lime",
     "Mango Salsa",
     "Mediterranean",
-    "Smoked Salmon", 
+    "Smoked Salmon" 
 ];
 
 let selectedDip = null;
