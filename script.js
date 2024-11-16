@@ -21,6 +21,7 @@ const db = getFirestore(app);
 const dips = [
     "Brisket",
     "Buffalo Chicken",
+    "Butter Chicken"'
     "Cake Batter",
     "Corn",
     "Crab",
