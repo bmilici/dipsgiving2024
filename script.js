@@ -40,30 +40,50 @@ const dips = [
 
 let selectedDip = null;
 
-// Generate radio buttons for dips
-const dipsContainer = document.getElementById("dips-container");
-const submitVoteButton = document.getElementById("submit-vote");
+// Wait for the DOM to load
+document.addEventListener("DOMContentLoaded", () => {
+    const dipsContainer = document.getElementById("dips-container");
+    const submitVoteButton = document.getElementById("submit-vote");
 
-if (dipsContainer) {
-    dips.forEach((dip) => {
-        const label = document.createElement("label");
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = "dip";
-        radio.value = dip;
-        radio.addEventListener("change", () => {
-            selectedDip = dip;
-            submitVoteButton.disabled = false;
+    // Generate radio buttons for dips
+    if (dipsContainer) {
+        dips.forEach((dip) => {
+            const label = document.createElement("label");
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "dip";
+            radio.value = dip;
+            radio.addEventListener("change", () => {
+                selectedDip = dip;
+                submitVoteButton.disabled = false;
+            });
+
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(dip));
+            dipsContainer.appendChild(label);
+            dipsContainer.appendChild(document.createElement("br"));
         });
+    }
 
-        label.appendChild(radio);
-        label.appendChild(document.createTextNode(dip));
-        dipsContainer.appendChild(label);
-        dipsContainer.appendChild(document.createElement("br"));
+    submitVoteButton.disabled = true; // Initially disable button
+
+    // Handle vote submission
+    submitVoteButton.addEventListener("click", async () => {
+        const voterName = prompt("Enter your name:").trim();
+        if (!voterName || !selectedDip) {
+            alert("Please select a dip and enter your name!");
+            return;
+        }
+
+        submitVoteButton.disabled = true; // Disable to prevent multiple submissions
+        await submitVote(voterName, selectedDip);
+        submitVoteButton.disabled = false; // Re-enable after vote
+        loadVotes();
     });
-}
 
-submitVoteButton.disabled = true; // Initially disable button
+    // Load votes on page load
+    loadVotes();
+});
 
 // Submit a vote
 async function submitVote(voterName, selectedDip) {
@@ -125,19 +145,3 @@ function displayResults(votes) {
         resultsList.appendChild(listItem);
     });
 }
-
-// Handle vote submission
-submitVoteButton.addEventListener("click", async () => {
-    const voterName = prompt("Enter your name:").trim();
-    if (!voterName || !selectedDip) return;
-
-    submitVoteButton.disabled = true; // Disable to prevent multiple submissions
-    await submitVote(voterName, selectedDip);
-    submitVoteButton.disabled = false; // Re-enable after vote
-    loadVotes();
-});
-
-// Load votes on page load
-document.addEventListener("DOMContentLoaded", () => {
-    loadVotes();
-});
