@@ -18,11 +18,19 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const dips = [
-    "Brisket Dip",
-    "Buffalo Chicken Dip",
-    "Guacamole",
-    "Queso",
-    "Hummus"
+    "Brisket",
+    "Buffalo Chicken",
+    "Cake Batter",
+    "Corn",
+    "Crab",
+    "Dorito",
+    "Espinaca"
+    "Goat Cheese Bruschetta",
+    "Hoagie",
+    "Key Lime",
+    "Mango Salsa",
+    "Mediterranean",
+    "Smoked Salmon", 
 ];
 
 let selectedDip = null;
