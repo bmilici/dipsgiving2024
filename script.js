@@ -27,11 +27,14 @@ const dips = [
     "Crab",
     "Dorito",
     "Espinaca",
+    "Fried Pickle",
     "Goat Cheese Bruschetta",
     "Hoagie",
+    "Smoked Jalapeno",
     "Key Lime",
     "Mango Salsa",
     "Mediterranean",
+    "Pineapple Pepper",
     "Smoked Salmon"
 ];
 
