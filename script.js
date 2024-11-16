@@ -28,6 +28,7 @@ const dips = [
     "Dorito",
     "Espinaca",
     "Fried Pickle",
+    "Funfetti",
     "Goat Cheese Bruschetta",
     "Hoagie",
     "Smoked Jalapeno",
