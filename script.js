@@ -25,6 +25,7 @@ const dips = [
     "Cake Batter",
     "Corn",
     "Crab",
+    "Crab Rangoon",
     "Dorito",
     "Espinaca",
     "Fried Pickle",
