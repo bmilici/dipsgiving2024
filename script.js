@@ -79,11 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitVoteButton.disabled = true; // Disable to prevent multiple submissions
         await submitVote(voterName, selectedDip);
         submitVoteButton.disabled = false; // Re-enable after vote
-        loadVotes();
     });
-
-    // Load votes on page load
-    loadVotes();
 });
 
 // Submit a vote
@@ -114,35 +110,4 @@ async function submitVote(voterName, selectedDip) {
         console.error("Error submitting vote: ", error);
         alert("An error occurred while submitting your vote. Please try again.");
     }
-}
-
-// Load votes
-async function loadVotes() {
-    try {
-        const votesRef = doc(db, "votes", "dipResults");
-        const voteDoc = await getDoc(votesRef);
-
-        if (voteDoc.exists()) {
-            const votes = voteDoc.data();
-            displayResults(votes);
-        }
-    } catch (error) {
-        console.error("Error loading votes: ", error);
-    }
-}
-
-// Display results
-//function displayResults(votes) {
-    //const resultsList = document.getElementById("results");
-    //if (!resultsList) {
-        //console.error("Results container not found!");
-        //return;
-    //}
-
-    //resultsList.innerHTML = ""; // Clear previous results
-    //Object.entries(votes).forEach(([dip, count]) => {
-        //const listItem = document.createElement("li");
-        //listItem.textContent = `${dip}: ${count} vote(s)`;
-        //resultsList.appendChild(listItem);
-    //});
 }
