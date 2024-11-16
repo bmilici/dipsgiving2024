@@ -132,17 +132,17 @@ async function loadVotes() {
 }
 
 // Display results
-function displayResults(votes) {
-    const resultsList = document.getElementById("results");
-    if (!resultsList) {
-        console.error("Results container not found!");
-        return;
-    }
+//function displayResults(votes) {
+    //const resultsList = document.getElementById("results");
+    //if (!resultsList) {
+        //console.error("Results container not found!");
+        //return;
+    //}
 
-    resultsList.innerHTML = ""; // Clear previous results
-    Object.entries(votes).forEach(([dip, count]) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `${dip}: ${count} vote(s)`;
-        resultsList.appendChild(listItem);
-    });
+    //resultsList.innerHTML = ""; // Clear previous results
+    //Object.entries(votes).forEach(([dip, count]) => {
+        //const listItem = document.createElement("li");
+        //listItem.textContent = `${dip}: ${count} vote(s)`;
+        //resultsList.appendChild(listItem);
+    //});
 }
